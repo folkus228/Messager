@@ -1,0 +1,44 @@
+# Общие правила для всего проекта
+
+# Игнорировать файлы и папки IDE/редакторов
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Игнорировать временные файлы и кэш
+*.tmp
+*.log
+.vs/
+.cache/
+build/
+dist/
+
+# Игнорировать файлы конфигурации среды разработки или сборки
+node_modules/
+vendor/
+
+# Игнорировать файлы, связанные с решениями или модулями
+
+# Решение 1: Модуль или решение "MessageClient"
+MessageClient/.vs/
+MessageClient/*.user
+MessageClient/*.suo
+
+# Решение 2: Модуль или решение "MessageServer"
+MessageServer/.vs/
+MessageServer/*.user
+MessageServer/*.suo
+
+# Общие исключения для файлов конфигурации, которые должны быть в репозитории
+!MessageClient/config.json
+!MessageServer/config.json
+
+#документация и документы boost
+**/doc/
+**/status/
+*.html
+*.css
+INSTALL
+Jamroot
+*.jam
