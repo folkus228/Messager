@@ -3,7 +3,7 @@
 using boost::asio::ip::tcp;
 
 TcpSession::TcpSession(tcp::socket socket,
-    bool(**inRequest)(char* data, int length, tcp::socket socket)) 
+    bool(*inRequest)(char* data, int length, tcp::socket& socket)) 
     : socket_(std::move(socket)), inRequest_(inRequest) {}
 
 void TcpSession::start()
@@ -30,10 +30,10 @@ void TcpSession::read()
         {
             if (!ec)
             {
-                //if (true == (*inRequest_)(data_, max_length, std::move(socket_)))
+                if (true == (*inRequest_)(data_, max_length, socket_))
                 {
+                    write(length);
                 }
-                write(length);
             }
         }
         );
@@ -53,7 +53,7 @@ void TcpSession::write(std::size_t length)
 }
 
 TcpServer::TcpServer(boost::asio::io_context& io_context, short port, std::size_t thread_pool_size,
-    bool(*inRequest)(char* data, int length, tcp::socket socket))
+    bool(*inRequest)(char* data, int length, tcp::socket& socket))
     : acceptor_(io_context, tcp::endpoint(tcp::v4(), port)),
     thread_pool_size_(thread_pool_size), io_context_(io_context),
     inRequest_(inRequest)
@@ -90,7 +90,7 @@ void TcpServer::accept()
             if (!ec)
             {
                 std::cout << "New connection from: " << socket.remote_endpoint() << std::endl;
-                std::make_shared<TcpSession>(std::move(socket), &inRequest_)->start();
+                std::make_shared<TcpSession>(std::move(socket), inRequest_)->start();
             }
 
             accept();

@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Новый профиль",
+    "Projects": [
+      {
+        "Path": "MessageServer\\MessageServer.vcxproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "MessagerClient\\MessagerClient.vcxproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

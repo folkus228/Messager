@@ -10,7 +10,7 @@ void TestColors() {
     }
 }
 
-bool request_func(char* data, int length, boost::asio::ip::tcp::socket socket)
+bool request_func(char* data, int length, boost::asio::ip::tcp::socket& socket)
 {
     std::cout << "request func" << std::endl;
     return true;

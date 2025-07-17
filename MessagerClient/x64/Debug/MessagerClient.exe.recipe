@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\all\proj\visual\Messager\x64\Debug\MessagerClient.exe</FullPath>
+      <FullPath>C:\all\proj\VisualStudio\Messager\x64\Debug\MessagerClient.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
