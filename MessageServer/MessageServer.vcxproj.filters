@@ -21,7 +21,7 @@
     <ClCompile Include="Server_async.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="dbAPI.cpp">
+    <ClCompile Include="Messagerdb.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,7 +29,7 @@
     <ClInclude Include="Server_async.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="dbAPI.h">
+    <ClInclude Include="Messagerdb.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

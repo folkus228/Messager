@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <deque>
 #include <boost/asio.hpp>
 
@@ -46,18 +46,18 @@ private:
                         {
                             if (!ec)
                             {
-                                std::cout << "Connected to server" << std::endl;
+                                std::cout << "\033[92m" << "Connected to server" << "\033[0m" << std::endl;
                                 read();
                             }
                             else
                             {
-                                std::cerr << "Connect failed: " << ec.message() << std::endl;
+                                std::cerr << "\033[91m" << "Connect failed: " << ec.message() << "\033[94m" << std::endl;
                             }
                         });
                 }
                 else
                 {
-                    std::cerr << "Resolve failed: " << ec.message() << std::endl;
+                    std::cerr << "\033[91m" << "Resolve failed: " << ec.message() << "\033[0m" << std::endl;
                 }
             });
     }

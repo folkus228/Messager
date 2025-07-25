@@ -1,9 +1,9 @@
-#include "Server_async.h"
+ï»¿#include "Server_async.h"
 
 using boost::asio::ip::tcp;
 
-TcpSession::TcpSession(tcp::socket socket,
-    bool(*inRequest)(char* data, int length, tcp::socket& socket)) 
+TcpSession::TcpSession(S socket,
+    bool(*inRequest)(char* data, int length, S& socket)) 
     : socket_(std::move(socket)), inRequest_(inRequest) {}
 
 void TcpSession::start()
@@ -30,9 +30,17 @@ void TcpSession::read()
         {
             if (!ec)
             {
-                if (true == (*inRequest_)(data_, max_length, socket_))
+                if (true == (*inRequest_)(data_, length, socket_))
                 {
+                    for (int i = 0; i < 1024; i++)                    
+                        if (data_[i] == '\0')
+                            length = i;
+                    
                     write(length);
+                }
+                else
+                {
+                    read();
                 }
             }
         }
@@ -53,7 +61,7 @@ void TcpSession::write(std::size_t length)
 }
 
 TcpServer::TcpServer(boost::asio::io_context& io_context, short port, std::size_t thread_pool_size,
-    bool(*inRequest)(char* data, int length, tcp::socket& socket))
+    bool(*inRequest)(char* data, int length, S& socket))
     : acceptor_(io_context, tcp::endpoint(tcp::v4(), port)),
     thread_pool_size_(thread_pool_size), io_context_(io_context),
     inRequest_(inRequest)
@@ -63,14 +71,14 @@ TcpServer::TcpServer(boost::asio::io_context& io_context, short port, std::size_
 
 void TcpServer::run()
 {
-    // Ñîçäàåì ïóë ïîòîêîâ äëÿ îáðàáîòêè ñîåäèíåíèé
+    // Ð¡Ð¾Ð·Ð´Ð°ÐµÐ¼ Ð¿ÑƒÐ» Ð¿Ð¾Ñ‚Ð¾ÐºÐ¾Ð² Ð´Ð»Ñ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸ ÑÐ¾ÐµÐ´Ð¸Ð½ÐµÐ½Ð¸Ð¹
     std::vector<std::thread> threads;
     for (std::size_t i = 0; i < thread_pool_size_; ++i)
     {
         threads.emplace_back([this]() { io_context_.run(); });
     }
 
-    // Æäåì çàâåðøåíèÿ âñåõ ïîòîêîâ
+    // Ð–Ð´ÐµÐ¼ Ð·Ð°Ð²ÐµÑ€ÑˆÐµÐ½Ð¸Ñ Ð²ÑÐµÑ… Ð¿Ð¾Ñ‚Ð¾ÐºÐ¾Ð²
     stop(threads);
 }
 
@@ -85,7 +93,7 @@ void TcpServer::stop(std::vector<std::thread>& threads)
 void TcpServer::accept()
 {
     acceptor_.async_accept(
-        [this](boost::system::error_code ec, tcp::socket socket)
+        [this](boost::system::error_code ec, S socket)
         {
             if (!ec)
             {
