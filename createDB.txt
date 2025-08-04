@@ -1,0 +1,71 @@
+create table Clients (
+ tag varchar(512) auto_increment primary key,
+ name varchar(50) not null,
+ password varchar (128) not null,
+ phone_number varchar(15)
+)
+
+create table Messages (
+ id int auto_increment primary key,
+ client_tag varchar(512) not null,
+ chat_id int not null,
+ date timestamp default CURRENT_TIMESTAMP(),
+ content varchar(1024) not null,
+ foreign key (client_tag) references Clients(tag),
+ foreign key (chat_id) references Chats(id)
+)
+
+create table Whitelist(
+ id int auto_increment primary key,
+ client_tag varchar(512) not null,
+ chat_id int not null,
+ foreign key (client_tag) references Clients(tag),
+ foreign key (chat_id) references Chats(id)
+)
+
+create table AdministratorsList (
+ id int auto_increment primary key,
+ client_tag varchar(512) not null,
+ chat_id int not null,
+ foreign key (client_tag) references Clients(tag),
+ foreign key (chat_id) references Chats(id)
+)
+create table Chats (
+ id int auto_increment primary key,
+ name varchar(255) not null,
+ owner_tag varchar(512) not null,
+ foreign key (owner_tag) references Clients(tag)
+)
+
+
+DELIMITER //
+
+CREATE TRIGGER add_chat
+AFTER INSERT ON chats
+FOR EACH ROW
+BEGIN
+    INSERT INTO whitelist(client_tag, chat_id) VALUES (NEW.owner_tag, NEW.id);
+    INSERT INTO administratorslist(client_tag, chat_id) VALUES (NEW.owner_tag, NEW.id);
+END; //
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE TRIGGER del_chat
+BEFORE DELETE ON chats
+FOR EACH ROW
+begin
+ delete from whitelist where old.id = whitelist.chat_id;
+ delete from administratorslist where old.id = administratorslist.chat_id;
+ delete from messages where old.id = messages.chat_id;
+END; //
+
+DELIMITER ;
+
+
+CREATE UNIQUE INDEX no_repeat ON whitelist (client_tag, chat_id);
+
+
+CREATE UNIQUE INDEX no_repeat ON administratorslist (client_tag, chat_id);
