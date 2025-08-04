@@ -19,7 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Client_solo.cpp" />
+    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="chat_tools.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="chat_tools.h" />
+    <ClInclude Include="preprocess_client.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

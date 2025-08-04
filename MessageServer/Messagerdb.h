@@ -74,12 +74,12 @@ public:
 	}
 	const string* getChats(const string& tag)
 	{
-		string query = "SELECT chats.name, chats.owner_tag FROM chats LEFT JOIN whitelist ON whitelist.chat_id = chats.id where client_tag = \'" + tag + "\'";
+		string query = "SELECT chats.id, chats.owner_tag, chats.name FROM chats LEFT JOIN whitelist ON whitelist.chat_id = chats.id where client_tag = \'" + tag + "\'";
 		mysql_query(&mysql, query.c_str()); //Делаем запрос к таблице
 
 		//Выводим все что есть в базе через цикл
 		if (res = mysql_store_result(&mysql)) {
-			
+			*answer = "";
 			while (row = mysql_fetch_row(res)) {
 				//if (row == nullptr)
 				//{
@@ -87,7 +87,11 @@ public:
 				//	*answer = "Error";
 				//	return *answer;
 				//}
-				*answer += string(row[0]) + ' ' + string(row[1]) + '\n';
+				string a = string(row[0]);
+				string b = string(row[1]);
+				string c = string(row[2]);
+
+				*answer += string(row[0]) + ' ' + string(row[1]) + ' ' + string(row[2]) + '\n'; // добавить в запрос и ответ id и поменять местами name owner_tag для обработки
 			}
 			if (!answer->empty())
 				answer->pop_back();

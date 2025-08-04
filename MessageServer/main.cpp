@@ -29,7 +29,7 @@ void TestColors() {
 // возвратить true если надо отправить что-то взамен инче false
 bool request_func(char* data, int length, boost::asio::ip::tcp::socket& socket)
 {
-    static Messagerdb APIdb("localhost", "root", "root", "Messager", NULL, NULL, 0);
+    static Messagerdb APIdb("localhost", "root", "root", "Messager", NULL, NULL, 0); // тут поменять
 
     static string tag;
     static string name;
@@ -38,7 +38,7 @@ bool request_func(char* data, int length, boost::asio::ip::tcp::socket& socket)
     static string content;
     static int chat_id;
     static int message_id;
-    static int count;
+    static int count = 0;
 
     stringstream request(std::string(data, length));
 
@@ -49,6 +49,7 @@ bool request_func(char* data, int length, boost::asio::ip::tcp::socket& socket)
     case 0:    
         request >> tag;
         request >> password;
+        cout << "\033[95m" << "tag: " << tag << '\n' << "password: " << password << endl;
         strcpy(data, APIdb.getUserInfo(tag, password)->c_str());
         break;   
     case 1:
@@ -103,7 +104,6 @@ bool request_func(char* data, int length, boost::asio::ip::tcp::socket& socket)
         break;
     }
 
-    static int count = 0;
     count++;
     std::cout << "count: " << count << std::endl;
     std::cout << "length: " << length << std::endl;
