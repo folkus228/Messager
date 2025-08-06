@@ -30,7 +30,7 @@ void TestColors() {
 // возвратить true если надо отправить что-то взамен инче false
 bool request_func(char* data, int length, boost::asio::ip::tcp::socket& socket)
 {
-    static Messagerdb APIdb("localhost", "root", "folkus", "Messager", NULL, NULL, 0); // тут поменять
+    static Messagerdb APIdb("localhost", "root", "root", "Messager", NULL, NULL, 0); // тут поменять
 
     static string tag;
     static string name;
