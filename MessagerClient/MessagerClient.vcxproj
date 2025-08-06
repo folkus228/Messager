@@ -20,11 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="chat_tools.cpp" />
+    <ClCompile Include="process_tools.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="chat_tools.h" />
-    <ClInclude Include="preprocess_client.h" />
+    <ClInclude Include="process_tools.h" />
+    <ClInclude Include="process_client.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

@@ -104,10 +104,12 @@ public:
 		}
 		return answer;
 	}
-	const string* getMessages(const int& chat_id, const int& count, const int& message_id)
+	const string* getMessages(const int& chat_id, const int& message_id, const int& count)
 	{
+		*answer = "";
+
 		string query = "select id, client_tag, date, content from messages where chat_id = " + to_string(chat_id) 
-			+ " and id > " + to_string(message_id) + " order by date desc limit " + to_string(count);
+			+ " and id > " + to_string(message_id) + " order by id desc limit " + to_string(count);
 		mysql_query(&mysql, query.c_str()); //Делаем запрос к таблице
 
 		//Выводим все что есть в базе через цикл
@@ -255,6 +257,35 @@ public:
 			cout << "Ошибка MySql номер: " << error << endl;
 			return false;
 		}
+	}
+
+	const string* getUserName(const string& tag)
+	{
+		string query = "select name from clients where tag = \'" + tag + "\'";
+		mysql_query(&mysql, query.c_str()); //Делаем запрос к таблице
+
+		//Выводим все что есть в базе через цикл
+		if (res = mysql_store_result(&mysql)) {
+			row = mysql_fetch_row(res);
+
+			if (row == nullptr)
+			{
+				cout << "\033[91m" << "Ошибка пользователя: пользователя несуществует" << "\033[0m" << endl;
+				*answer = "Error";
+				return answer;
+			}
+
+			*answer = string(row[0]);
+
+			cout << "\033[94m" << "from db: " << *answer << "\033[0m" << endl;
+		}
+		else
+		{
+			cout << "\033[91m" << "Ошибка MySql номер " << mysql_error(&mysql) << "\033[0m";
+			*answer = "Error";
+		}
+
+		return answer;
 	}
 
 private:

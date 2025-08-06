@@ -1,5 +1,5 @@
 #include <boost/asio.hpp>
-#include "preprocess_client.h"
+#include "process_client.h"
 #include <iostream>
 #include <string>
 
@@ -62,11 +62,11 @@ int main(int argc, char* argv[]) {
 
             int chat_id = getChat(tag, socket);
 
-
-
-            // берем чат
-
-            // оформляем что тебе и выводит и написать можешь но если выйти то пиши просто exit и все
+            controlMessage(chat_id, 5, tag, socket);
+            
+            //string message;
+            //getline(cin, message);
+            //cout << getMessageFromServer(socket, message) << endl;
 
         }
     }
