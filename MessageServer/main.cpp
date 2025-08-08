@@ -2,6 +2,7 @@
 #include <string>
 #include "Server_async.h"
 #include "Messagerdb.h"
+#include "Logger.h"
 
 //enum class RequestType : short
 //{
@@ -40,8 +41,11 @@ bool request_func(char* data, int length, boost::asio::ip::tcp::socket& socket)
     static int chat_id;
     static int message_id;
     static int count;
+    static Logger logger;
 
-    stringstream request(std::string(data, length));
+    string request_str = std::string(data, length);
+
+    stringstream request(request_str);
 
     short requestType;
     request >> requestType;
@@ -108,10 +112,11 @@ bool request_func(char* data, int length, boost::asio::ip::tcp::socket& socket)
     default:
         break;
     }
+        
+    string ans_str = std::string(data, length);
 
-    std::cout << "length: " << length << std::endl;
-    
-    std::cout << std::string(data, length) << std::endl;
+    logger.write_log(request_str, ans_str);
+
     return true;
 }
 

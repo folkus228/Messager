@@ -24,12 +24,18 @@
     <ClCompile Include="Messagerdb.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Server_async.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Messagerdb.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
